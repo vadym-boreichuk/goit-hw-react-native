@@ -12,6 +12,7 @@ import {
   ImageBackground,
   Text,
   Image,
+  TouchableOpacity,
 } from "react-native";
 
 export function RegistrationScreen() {
@@ -29,6 +30,7 @@ export function RegistrationScreen() {
     }
     Alert.alert("Credentials", `${name} + ${password} + ${mail}`);
   };
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -44,43 +46,60 @@ export function RegistrationScreen() {
               source={require("../images/add.png")}
             />
           </View>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <TouchableWithoutFeedback
+            onPress={Keyboard.dismiss}
+            onPressOut={() => {
+              if (Keyboard.dismiss) setIsShowKeyboard(false);
+            }}
+          >
             <KeyboardAvoidingView
               behavior={Platform.OS == "ios" ? "padding" : "height"}
             >
               <Text style={styles.title}>Registration</Text>
               <View style={styles.form}>
                 <TextInput
+                  textAlign={"center"}
                   value={name}
                   onChangeText={nameHandler}
                   placeholder="Username"
                   style={styles.input}
+                  onFocus={() => setIsShowKeyboard(true)}
                 />
                 <TextInput
+                  textAlign={"center"}
                   value={mail}
                   onChangeText={mailHandler}
                   placeholder="Mail"
                   style={styles.input}
+                  onFocus={() => setIsShowKeyboard(true)}
                 />
                 <View style={styles.passbox}>
                   <TextInput
+                    textAlign={"center"}
                     value={password}
                     onChangeText={passwordHandler}
                     placeholder="Password"
                     secureTextEntry={true}
                     style={styles.input}
+                    onFocus={() => setIsShowKeyboard(true)}
                   />
                   <Text style={styles.show}>Show</Text>
                 </View>
 
-                <Button
-                  title={"Login"}
+                <TouchableOpacity
+                  activeOpacity={0.7}
                   style={styles.button}
-                  color="#FF6C00"
                   onPress={onLogin}
-                />
+                >
+                  <Text style={styles.textButton}>SIGN IN</Text>
+                </TouchableOpacity>
               </View>
-              <Text style={styles.textLog}>
+              <Text
+                style={{
+                  ...styles.textLog,
+                  marginBottom: isShowKeyboard ? -120 : 78,
+                }}
+              >
                 Already have an account? Log in
               </Text>
             </KeyboardAvoidingView>
@@ -101,15 +120,15 @@ const styles = StyleSheet.create({
   imagebkg: {
     flex: 1,
     width: "100%",
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
   },
   innerContainer: {
     width: "100%",
     height: "70%",
     marginTop: "auto",
-    borderWidth: 4,
-    borderColor: "orange",
+    // borderWidth: 4,
+    // borderColor: "orange",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     backgroundColor: "white",
@@ -118,10 +137,8 @@ const styles = StyleSheet.create({
   },
   form: {
     marginHorizontal: 16,
-    // width: "100%",
     // borderWidth: 4,
     // borderColor: "orange",
-    // // marginHorizontal: 40,
   },
   input: {
     minWidth: "100%",
@@ -135,8 +152,8 @@ const styles = StyleSheet.create({
   },
 
   textLog: {
-    // position: "absolute",
     marginTop: 16,
+    marginBottom: 78,
     textAlign: "center",
   },
   title: {
@@ -158,10 +175,19 @@ const styles = StyleSheet.create({
     top: 81,
     left: 107,
   },
-  passbox: {
-    // position: "relative",
-    // borderWidth: 4,
-    // borderColor: "black",
+  button: {
+    marginTop: 43,
+    backgroundColor: "#FF6C00",
+    height: 51,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 100,
+  },
+  textButton: {
+    fontWeight: 400,
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#FFFFFF",
   },
   show: {
     position: "absolute",
