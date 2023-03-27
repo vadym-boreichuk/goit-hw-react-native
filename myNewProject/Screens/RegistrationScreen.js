@@ -31,44 +31,48 @@ export function RegistrationScreen() {
   };
 
   return (
-    <>
+    <View style={styles.container}>
       <ImageBackground
         source={require("../images/bgimage.jpg")}
         resizeMode="cover"
-        style={styles.image}
+        style={styles.imagebkg}
       >
-        <View style={styles.photo}>
-          <Image style={styles.add} source={require("../images/add.png")} />
-        </View>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
+        <View style={styles.innerContainer}>
+          <View style={styles.addPhotoBox}>
+            <Image
+              style={styles.addPhoto}
+              source={require("../images/add.png")}
+            />
+          </View>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <KeyboardAvoidingView
               behavior={Platform.OS == "ios" ? "padding" : "height"}
             >
               <Text style={styles.title}>Registration</Text>
-              <TextInput
-                value={name}
-                onChangeText={nameHandler}
-                placeholder="Username"
-                style={styles.input}
-              />
-              <TextInput
-                value={mail}
-                onChangeText={mailHandler}
-                placeholder="Mail"
-                style={styles.input}
-              />
-              <View style={styles.passbox}>
+              <View style={styles.form}>
                 <TextInput
-                  value={password}
-                  onChangeText={passwordHandler}
-                  placeholder="Password"
-                  secureTextEntry={true}
+                  value={name}
+                  onChangeText={nameHandler}
+                  placeholder="Username"
                   style={styles.input}
                 />
-                <Text style={styles.show}>Show</Text>
-              </View>
-              <View style={styles.buttonStyle}>
+                <TextInput
+                  value={mail}
+                  onChangeText={mailHandler}
+                  placeholder="Mail"
+                  style={styles.input}
+                />
+                <View style={styles.passbox}>
+                  <TextInput
+                    value={password}
+                    onChangeText={passwordHandler}
+                    placeholder="Password"
+                    secureTextEntry={true}
+                    style={styles.input}
+                  />
+                  <Text style={styles.show}>Show</Text>
+                </View>
+
                 <Button
                   title={"Login"}
                   style={styles.button}
@@ -76,12 +80,14 @@ export function RegistrationScreen() {
                   onPress={onLogin}
                 />
               </View>
-              <Text style={styles.text}>Already have an account? Log in</Text>
+              <Text style={styles.textLog}>
+                Already have an account? Log in
+              </Text>
             </KeyboardAvoidingView>
-          </View>
-        </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback>
+        </View>
       </ImageBackground>
-    </>
+    </View>
   );
 }
 
@@ -89,39 +95,46 @@ export { RegistrationScreen as default };
 
 const styles = StyleSheet.create({
   container: {
-    position: "relative",
-    // bottom: 0,
-    display: "flex",
+    flex: 1,
+    width: "100%",
+  },
+  imagebkg: {
+    flex: 1,
+    width: "100%",
     justifyContent: "center",
     alignItems: "center",
+  },
+  innerContainer: {
     width: "100%",
     height: "70%",
     marginTop: "auto",
-    // borderWidth: 4,
-    // borderColor: "orange",
+    borderWidth: 4,
+    borderColor: "orange",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
   },
-  buttonStyle: {
-    // position: "absolute",
-    marginTop: 43,
+  form: {
+    marginHorizontal: 16,
+    // width: "100%",
+    // borderWidth: 4,
+    // borderColor: "orange",
+    // // marginHorizontal: 40,
   },
   input: {
+    minWidth: "100%",
     borderRadius: 8,
     height: 50,
-    width: 343,
     padding: 10,
     borderWidth: 1,
     borderColor: "black",
     marginBottom: 10,
     backgroundColor: "#F6F6F6",
   },
-  image: {
-    flex: 1,
-    width: "100%",
-  },
-  text: {
+
+  textLog: {
     // position: "absolute",
     marginTop: 16,
     textAlign: "center",
@@ -129,27 +142,24 @@ const styles = StyleSheet.create({
   title: {
     textAlign: "center",
     fontSize: 30,
+    marginTop: 92,
     marginBottom: 33,
   },
-  photo: {
+  addPhotoBox: {
     position: "absolute",
-    top: "30%",
-    left: "50%",
-    transform: [{ translateX: -50 }, { translateY: -50 }],
+    top: -60,
     width: 120,
     height: 120,
     backgroundColor: "#F6F6F6",
     borderRadius: 16,
     zIndex: 1,
   },
-  add: {
-    position: "relative",
+  addPhoto: {
     top: 81,
     left: 107,
-    zIndex: 5,
   },
   passbox: {
-    position: "relative",
+    // position: "relative",
     // borderWidth: 4,
     // borderColor: "black",
   },
