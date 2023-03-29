@@ -8,8 +8,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  Button,
-  ImageBackground,
   Text,
   Image,
   TouchableOpacity,
@@ -19,6 +17,7 @@ export function RegistrationScreen() {
   const [name, setName] = useState("");
   const [mail, SetMail] = useState("");
   const [password, setPassword] = useState("");
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   const nameHandler = (text) => setName(text);
   const mailHandler = (text) => SetMail(text);
@@ -30,82 +29,109 @@ export function RegistrationScreen() {
     }
     Alert.alert("Credentials", `${name} + ${password} + ${mail}`);
   };
-  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   return (
     <View style={styles.container}>
-      <ImageBackground
+      <Image
         source={require("../images/bgimage.jpg")}
         resizeMode="cover"
         style={styles.imagebkg}
-      >
-        <View style={styles.innerContainer}>
-          <View style={styles.addPhotoBox}>
-            <Image
-              style={styles.addPhoto}
-              source={require("../images/add.png")}
-            />
-          </View>
-          <TouchableWithoutFeedback
-            onPress={Keyboard.dismiss}
-            onPressOut={() => {
-              if (Keyboard.dismiss) setIsShowKeyboard(false);
-            }}
+      />
+      <View style={styles.innerContainer}>
+        <View
+          style={{
+            ...styles.addPhotoBox,
+            marginTop: isShowKeyboard ? 40 : -100,
+          }}
+        >
+          <TouchableOpacity
+            type={"file"}
+            activeOpacity={0.7}
+            style={styles.buttonPhoto}
           >
-            <KeyboardAvoidingView
-              behavior={Platform.OS == "ios" ? "padding" : "height"}
-            >
-              <Text style={styles.title}>Registration</Text>
-              <View style={styles.form}>
-                <TextInput
-                  textAlign={"center"}
-                  value={name}
-                  onChangeText={nameHandler}
-                  placeholder="Username"
-                  style={styles.input}
-                  onFocus={() => setIsShowKeyboard(true)}
+            {isShowKeyboard && (
+              <>
+                <Image
+                  style={styles.photo}
+                  source={require("../images/photo-profile.jpg")}
                 />
-                <TextInput
-                  textAlign={"center"}
-                  value={mail}
-                  onChangeText={mailHandler}
-                  placeholder="Mail"
-                  style={styles.input}
-                  onFocus={() => setIsShowKeyboard(true)}
+                <Image
+                  style={styles.removePhoto}
+                  source={require("../images/remove.png")}
                 />
-                <View style={styles.passbox}>
-                  <TextInput
-                    textAlign={"center"}
-                    value={password}
-                    onChangeText={passwordHandler}
-                    placeholder="Password"
-                    secureTextEntry={true}
-                    style={styles.input}
-                    onFocus={() => setIsShowKeyboard(true)}
-                  />
-                  <Text style={styles.show}>Show</Text>
-                </View>
-
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  style={styles.button}
-                  onPress={onLogin}
-                >
-                  <Text style={styles.textButton}>SIGN IN</Text>
-                </TouchableOpacity>
-              </View>
-              <Text
-                style={{
-                  ...styles.textLog,
-                  marginBottom: isShowKeyboard ? -120 : 78,
-                }}
-              >
-                Already have an account? Log in
-              </Text>
-            </KeyboardAvoidingView>
-          </TouchableWithoutFeedback>
+              </>
+            )}
+            {!isShowKeyboard && (
+              <Image
+                style={styles.addPhoto}
+                source={require("../images/add.png")}
+              />
+            )}
+          </TouchableOpacity>
         </View>
-      </ImageBackground>
+        <TouchableWithoutFeedback
+          onPress={Keyboard.dismiss}
+          onPressOut={() => {
+            if (Keyboard.dismiss) setIsShowKeyboard(false);
+          }}
+        >
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <Text
+              style={{
+                ...styles.title,
+                marginTop: isShowKeyboard ? 30 : 0,
+              }}
+            >
+              Registration
+            </Text>
+            <View style={styles.form}>
+              <TextInput
+                value={name}
+                onChangeText={nameHandler}
+                placeholder="Username"
+                style={styles.input}
+                onFocus={() => setIsShowKeyboard(true)}
+              />
+              <TextInput
+                value={mail}
+                onChangeText={mailHandler}
+                placeholder="Mail"
+                style={styles.input}
+                onFocus={() => setIsShowKeyboard(true)}
+              />
+              <View style={styles.passbox}>
+                <TextInput
+                  value={password}
+                  onChangeText={passwordHandler}
+                  placeholder="Password"
+                  secureTextEntry={true}
+                  style={styles.input}
+                  onFocus={() => setIsShowKeyboard(true)}
+                />
+                <Text style={styles.show}>Show</Text>
+              </View>
+
+              <TouchableOpacity
+                activeOpacity={0.7}
+                style={styles.button}
+                onPress={onLogin}
+              >
+                <Text style={styles.textButton}>SIGN IN</Text>
+              </TouchableOpacity>
+            </View>
+            <Text
+              style={{
+                ...styles.textLog,
+                marginBottom: isShowKeyboard ? -10 : 78,
+              }}
+            >
+              Already have an account? Log in
+            </Text>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </View>
     </View>
   );
 }
@@ -118,17 +144,13 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   imagebkg: {
-    flex: 1,
+    position: "absolute",
     width: "100%",
-    justifyContent: "flex-end",
-    alignItems: "center",
   },
   innerContainer: {
     width: "100%",
     height: "70%",
     marginTop: "auto",
-    // borderWidth: 4,
-    // borderColor: "orange",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     backgroundColor: "white",
@@ -137,8 +159,6 @@ const styles = StyleSheet.create({
   },
   form: {
     marginHorizontal: 16,
-    // borderWidth: 4,
-    // borderColor: "orange",
   },
   input: {
     minWidth: "100%",
@@ -163,17 +183,35 @@ const styles = StyleSheet.create({
     marginBottom: 33,
   },
   addPhotoBox: {
-    position: "absolute",
-    top: -60,
+    position: "relative",
     width: 120,
     height: 120,
     backgroundColor: "#F6F6F6",
     borderRadius: 16,
     zIndex: 1,
   },
-  addPhoto: {
+  buttonPhoto: {
+    width: 21,
+    height: 21,
     top: 81,
     left: 107,
+  },
+  photo: {
+    position: "absolute",
+    top: -82,
+    right: 8,
+    width: 120,
+    height: 120,
+    borderRadius: 16,
+  },
+  addPhoto: {
+    zIndex: 2,
+  },
+  removePhoto: {
+    position: "absolute",
+    zIndex: 3,
+    top: -6,
+    right: -10,
   },
   button: {
     marginTop: 43,

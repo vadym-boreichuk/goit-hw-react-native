@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "react-native-document-picker": "^8.2.0"
+  }
+}

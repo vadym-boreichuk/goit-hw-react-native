@@ -1,10 +1,4 @@
-// import { StyleSheet, Text, View } from 'react-native';
-
-// export const LoginScreen = () => {
-//   return <Text>LoginScreen</Text>;
-// };
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -14,61 +8,159 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  Button,
-} from 'react-native';
+  Text,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 
-export function LoginScreen() {
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
+export function onLoginScreen() {
+  const [name, setName] = useState("");
+  const [mail, SetMail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const nameHandler = text => setName(text);
-  const passwordHandler = text => setPassword(text);
+  const mailHandler = (text) => SetMail(text);
+  const passwordHandler = (text) => setPassword(text);
 
   const onLogin = () => {
-    Alert.alert('Credentials', `${name} + ${password}`);
+    if (!mail || !password) {
+      return Alert.alert("Credentials", `Please, enter your data`);
+    }
+    Alert.alert("Credentials", `${password} + ${mail}`);
   };
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+    <View style={styles.container}>
+      <Image
+        source={require("../images/bgimage.jpg")}
+        resizeMode="cover"
+        style={styles.imagebkg}
+      />
+      <View style={styles.innerContainer}>
+        <TouchableWithoutFeedback
+          onPress={Keyboard.dismiss}
+          onPressOut={() => {
+            if (Keyboard.dismiss) setIsShowKeyboard(false);
+          }}
         >
-          <TextInput
-            value={name}
-            onChangeText={nameHandler}
-            placeholder="Username"
-            style={styles.input}
-          />
-          <TextInput
-            value={password}
-            onChangeText={passwordHandler}
-            placeholder="Password"
-            secureTextEntry={true}
-            style={styles.input}
-          />
-          <Button title={'Login'} style={styles.input} onPress={onLogin} />
-        </KeyboardAvoidingView>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <Text
+              style={{
+                ...styles.title,
+                marginTop: isShowKeyboard ? 32 : -32,
+              }}
+            >
+              Log In
+            </Text>
+            <View style={styles.form}>
+              <TextInput
+                value={mail}
+                onChangeText={mailHandler}
+                placeholder="Mail"
+                style={styles.input}
+                onFocus={() => setIsShowKeyboard(true)}
+              />
+              <View style={styles.passbox}>
+                <TextInput
+                  value={password}
+                  onChangeText={passwordHandler}
+                  placeholder="Password"
+                  secureTextEntry={true}
+                  style={styles.input}
+                  onFocus={() => setIsShowKeyboard(true)}
+                />
+                <Text style={styles.show}>Show</Text>
+              </View>
+
+              <TouchableOpacity
+                activeOpacity={0.7}
+                style={styles.button}
+                onPress={onLogin}
+              >
+                <Text style={styles.textButton}>LOG IN</Text>
+              </TouchableOpacity>
+            </View>
+            <Text
+              style={{
+                ...styles.textLog,
+                marginBottom: isShowKeyboard ? -10 : 78,
+              }}
+            >
+              Don't have an account? Register
+            </Text>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
       </View>
-    </TouchableWithoutFeedback>
+    </View>
   );
 }
 
-export { LoginScreen as default };
+export { onLoginScreen as default };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
+    width: "100%",
+  },
+  imagebkg: {
+    position: "absolute",
+    width: "100%",
+  },
+  innerContainer: {
+    width: "100%",
+    height: "70%",
+    marginTop: "auto",
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  form: {
+    marginHorizontal: 16,
   },
   input: {
-    width: 200,
-    height: 44,
+    minWidth: "100%",
+    borderRadius: 8,
+    height: 50,
     padding: 10,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: "black",
     marginBottom: 10,
+    backgroundColor: "#F6F6F6",
+  },
+
+  textLog: {
+    marginTop: 16,
+    marginBottom: 78,
+    textAlign: "center",
+  },
+  title: {
+    textAlign: "center",
+    fontSize: 30,
+    marginTop: 92,
+    marginBottom: 33,
+  },
+  button: {
+    marginTop: 43,
+    backgroundColor: "#FF6C00",
+    height: 51,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 100,
+  },
+  textButton: {
+    fontWeight: 400,
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#FFFFFF",
+  },
+  show: {
+    position: "absolute",
+    top: "50%",
+    transform: [{ translateY: -15 }],
+    right: 20,
   },
 });
