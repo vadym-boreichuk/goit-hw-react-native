@@ -23,6 +23,7 @@ export function onLoginScreen() {
 
   const onLogin = () => {
     if (!mail || !password) {
+      console.log("no mail");
       return Alert.alert("Credentials", `Please, enter your data`);
     }
     Alert.alert("Credentials", `${password} + ${mail}`);
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   textButton: {
-    fontWeight: 400,
+    // fontWeight: 400,
     fontSize: 16,
     lineHeight: 19,
     color: "#FFFFFF",

@@ -1,5 +1,9 @@
 {
   "dependencies": {
+    "expo": "^47.0.14",
+    "expo-dev-menu": "^2.1.4",
+    "react": "18.1.0",
+    "react-native": "0.70.8",
     "react-native-document-picker": "^8.2.0"
   }
 }
