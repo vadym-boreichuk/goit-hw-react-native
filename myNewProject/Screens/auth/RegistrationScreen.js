@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import {
   StyleSheet,
   View,
@@ -14,6 +15,7 @@ import {
 } from "react-native";
 
 export function RegistrationScreen() {
+  const navigation = useNavigation();
   const [name, setName] = useState("");
   const [mail, SetMail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,7 +35,7 @@ export function RegistrationScreen() {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../images/bgimage.jpg")}
+        source={require("../../images/bgimage.jpg")}
         resizeMode="cover"
         style={styles.imagebkg}
       />
@@ -48,23 +50,24 @@ export function RegistrationScreen() {
             type={"file"}
             activeOpacity={0.7}
             style={styles.buttonPhoto}
+            // onPress={() => navigation.navigate("Login")}
           >
             {isShowKeyboard && (
               <>
                 <Image
                   style={styles.photo}
-                  source={require("../images/photo-profile.jpg")}
+                  source={require("../../images/photo-profile.jpg")}
                 />
                 <Image
                   style={styles.removePhoto}
-                  source={require("../images/remove.png")}
+                  source={require("../../images/remove.png")}
                 />
               </>
             )}
             {!isShowKeyboard && (
               <Image
                 style={styles.addPhoto}
-                source={require("../images/add.png")}
+                source={require("../../images/add.png")}
               />
             )}
           </TouchableOpacity>
@@ -121,14 +124,19 @@ export function RegistrationScreen() {
                 <Text style={styles.textButton}>SIGN IN</Text>
               </TouchableOpacity>
             </View>
-            <Text
-              style={{
-                ...styles.textLog,
-                marginBottom: isShowKeyboard ? -10 : 78,
-              }}
-            >
-              Already have an account? Log in
-            </Text>
+            <View>
+              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                <Text
+                  style={{
+                    ...styles.textLog,
+                    marginBottom: isShowKeyboard ? -10 : 78,
+                  }}
+                >
+                  Already have an account?
+                  <Text> Log in</Text>
+                </Text>
+              </TouchableOpacity>
+            </View>
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
       </View>
@@ -173,7 +181,7 @@ const styles = StyleSheet.create({
 
   textLog: {
     marginTop: 16,
-    marginBottom: 78,
+    // marginBottom: 78,
     textAlign: "center",
   },
   title: {
@@ -213,6 +221,10 @@ const styles = StyleSheet.create({
     top: -6,
     right: -10,
   },
+  // ton: {
+  //   height: 51,
+  //   width: 30,
+  // },
   button: {
     marginTop: 43,
     backgroundColor: "#FF6C00",

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import {
   StyleSheet,
   View,
@@ -13,8 +14,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-export function onLoginScreen() {
-  const [name, setName] = useState("");
+export function OnLoginScreen() {
+  const navigation = useNavigation();
   const [mail, SetMail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -33,7 +34,7 @@ export function onLoginScreen() {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../images/bgimage.jpg")}
+        source={require("../../images/bgimage.jpg")}
         resizeMode="cover"
         style={styles.imagebkg}
       />
@@ -89,7 +90,10 @@ export function onLoginScreen() {
                 marginBottom: isShowKeyboard ? -10 : 78,
               }}
             >
-              Don't have an account? Register
+              Don't have an account?
+              <Text onPress={() => navigation.navigate("Registration")}>
+                Register
+              </Text>
             </Text>
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
@@ -98,7 +102,7 @@ export function onLoginScreen() {
   );
 }
 
-export { onLoginScreen as default };
+export { OnLoginScreen as default };
 
 const styles = StyleSheet.create({
   container: {
