@@ -13,6 +13,8 @@ import ProfileScreen from "./Screens/mainScreen/ProfileScreen";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import { Button, View } from "react-native";
 
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
@@ -43,7 +45,15 @@ export const useRoute = (isAuth) => {
             <Entypo name="image" size={40} color={color} />
           ),
           tabBarActiveTintColor: "#FF6C00",
-          headerShown: false,
+          headerShown: true,
+          headerStyle: {},
+          title: "Publications",
+          headerTitleStyle: {},
+          headerRight: () => (
+            <View>
+              <Feather name="log-out" size={24} color="grey" />
+            </View>
+          ),
         }}
         name="posts"
         component={PostsScreen}
@@ -54,7 +64,8 @@ export const useRoute = (isAuth) => {
             <AntDesign name="pluscircleo" size={40} color={color} />
           ),
           tabBarActiveTintColor: "#FF6C00",
-          headerShown: false,
+          headerShown: true,
+          title: "Create publication",
         }}
         name="create"
         component={CreatePostsScreen}
@@ -65,7 +76,7 @@ export const useRoute = (isAuth) => {
             <MaterialCommunityIcons name="account" size={40} color={color} />
           ),
           tabBarActiveTintColor: "#FF6C00",
-          headerShown: false,
+          headerShown: true,
         }}
         name="profile"
         component={ProfileScreen}
